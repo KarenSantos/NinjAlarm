@@ -5,21 +5,21 @@ import java.util.List;
 public class Training {
 	
 	private StopButton stopButton;
-	private List<Integer> rank;
+	private List<Match> rank;
 	
 	public Training (StopButton stopButton) {
 		this.stopButton = stopButton;
 	}
 	
-	public void addScore(int score) {
-		rank.add(score);
+	public void addMatch(Match match) {
+		rank.add(match);
 	}
 
-	public List<Integer> getRank() {
+	public List<Match> getRank() {
 		return rank;
 	}
 
-	public void setRank(List<Integer> rank) {
+	public void setRank(List<Match> rank) {
 		this.rank = rank;
 	}
 
