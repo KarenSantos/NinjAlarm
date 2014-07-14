@@ -12,8 +12,7 @@ public class AlarmByDate extends Alarm {
 		return date;
 	}
 	
-	public void setDate(AlarmDate date){
-		this.date = date;
+	public void setDate(int year, int month, int day)throws InvalidNumberException{
+		this.date = new AlarmDate(year, month, day);
 	}
-
 }

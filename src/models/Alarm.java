@@ -2,16 +2,16 @@ package models;
 
 public abstract class Alarm {
 
-	private int time;
+	private AlarmTime time;
 	
 	public Alarm() {}
 	
-	public int getTime() {
+	public AlarmTime getTime() {
 		return time;
 	}
 
-	public void setTime(int time) {
-		this.time = time;
+	public void setTime(int hour, int minute) throws InvalidNumberException {
+		this.time = new AlarmTime(hour, minute);
 	}
 
 }

@@ -19,7 +19,7 @@ public class AlarmDate {
 		this.day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 	}
 	
-	public AlarmDate(int year, int month, int day) throws InvalidDateException{
+	public AlarmDate(int year, int month, int day) throws InvalidNumberException{
 		setYear(year);
 		setMonth(month);
 		setDay(day);
@@ -29,9 +29,9 @@ public class AlarmDate {
 		return year;
 	}
 	
-	public void setYear(int year) throws InvalidDateException{
+	public void setYear(int year) throws InvalidNumberException{
 		if (year < Calendar.getInstance().get(Calendar.YEAR)){
-			throw new InvalidDateException("The chosen year cannot be a past year");
+			throw new InvalidNumberException("The chosen year cannot be a past year");
 		}
 		this.year = year;
 	}
@@ -40,15 +40,15 @@ public class AlarmDate {
 		return month;
 	}
 	
-	public void setMonth(int month) throws InvalidDateException{
+	public void setMonth(int month) throws InvalidNumberException{
 		
 		if (month < FIRST_MONTH || month > LAST_MONTH){
-			throw new InvalidDateException("Invalid month");
+			throw new InvalidNumberException("Invalid month");
 		}
 		
 		if (this.year == Calendar.getInstance().get(Calendar.YEAR)){
 			if (month < Calendar.getInstance().get(Calendar.MONTH)+1){
-				throw new InvalidDateException("The chosen month cannot be a past month");
+				throw new InvalidNumberException("The chosen month cannot be a past month");
 			}
 		}
 		this.month = month;
@@ -58,7 +58,7 @@ public class AlarmDate {
 		return day;
 	}
 	
-	public void setDay(int day) throws InvalidDateException {
+	public void setDay(int day) throws InvalidNumberException {
 		
 		int y = this.year;
 		int m = this.month - 1;
@@ -68,13 +68,13 @@ public class AlarmDate {
 		int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		
 		if (day < FIRST_DAY || day > daysInMonth){
-			throw new InvalidDateException("Invalid day for the chosen month");
+			throw new InvalidNumberException("Invalid day for the chosen month");
 		}
 
 		if (this.year == Calendar.getInstance().get(Calendar.YEAR)){
 			if (month == Calendar.getInstance().get(Calendar.MONTH)+1){
 				if (day < Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
-					throw new InvalidDateException("The chosen day cannot be a past day");
+					throw new InvalidNumberException("The chosen day cannot be a past day");
 				}
 			}
 		}
