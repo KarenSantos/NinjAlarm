@@ -15,7 +15,6 @@ public class AlarmTime {
 	}
 	
 	public AlarmTime(int hour, int minute) throws InvalidNumberException {
-		
 		setHour(hour);
 		setMinute(minute);
 	}
@@ -26,7 +25,7 @@ public class AlarmTime {
 	
 	public void setHour(int hour) throws InvalidNumberException{
 		if (hour < 0 || hour > MAX_HOUR){
-			throw new InvalidNumberException("Invalid hour");
+			throw new InvalidNumberException("The hour must be from 0 to 23");
 		}
 		this.hour = hour;
 	}
@@ -37,7 +36,7 @@ public class AlarmTime {
 	
 	public void setMinute(int minute) throws InvalidNumberException{
 		if (minute < 0 || minute > MAX_MIN) {
-			throw new InvalidNumberException("Invalid minute");
+			throw new InvalidNumberException("The minute must be from 0 to 59");
 		}
 		this.minute = minute;
 	}
