@@ -1,3 +1,5 @@
+package models;
+
 public class NinjaStop extends StopButton{
 
 	public NinjaStop(){
