@@ -21,7 +21,19 @@ public abstract class Alarm {
 	private int snoozeInterval;
 	private boolean power;
 	
-	public Alarm() {}
+	public Alarm(){
+		setDefaultConfig();
+	}
+	
+	public Alarm(AlarmTime time, AlarmType type, int volume, String melody,
+			boolean snooze, int snoozeInterval) throws InvalidNumberException, InvalidAlarmConfiguration {
+		this.time = time;
+		this.type = type;
+		setVolume(volume);
+		this.melody = melody;
+		this.snooze = snooze;
+		setSnoozeInterval(snoozeInterval);
+	}
 	
 	public AlarmTime getTime() {
 		return time;
