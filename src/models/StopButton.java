@@ -1,15 +1,32 @@
 package models;
 
-import java.util.Random;
-
-public abstract class StopButton {
-	public Tuple position, direction;
-	protected int speed;
+public class StopButton {
 	
-	protected Random rand = new Random();
+	private Difficulty level;
+	private Direction direction;
 	
-	protected int[] possibleDirections = {1,0,-1};
+	Tuple position = new Tuple(0,0);
+	
+	public StopButton(){
+		level = Difficulty.Normal;
+	}
+			
+	public void setLevel(Difficulty level) throws Exception{
+		if(level == null){
+			throw new Exception("Level couldn't be null");
+		}
 		
-	public abstract void run();
+		this.level = level;
+	}
+	
+	public void changeDirection(){
+		direction.setDirection();	
+	}
+	
+	public void walk() {				
+		position.x += level.getSpeed()*direction.getX();
+		position.y += level.getSpeed()*direction.getY();		
+	}
+	
 
 }
