@@ -69,9 +69,9 @@ public class NewAlarmTest {
 	
 	@Test
 	public void shouldBeAbleToChooseByDate() throws InvalidNumberException {
-		alarmByDate.setDate(2014, 7, 19);
+		alarmByDate.setDate(2020, 7, 19);
 		
-		assertEquals(2014, alarmByDate.getDate().getYear());
+		assertEquals(2020, alarmByDate.getDate().getYear());
 		assertEquals(7, alarmByDate.getDate().getMonth());
 		assertEquals(19, alarmByDate.getDate().getDay());
 	}
@@ -199,19 +199,6 @@ public class NewAlarmTest {
 		
 		assertEquals(50, alarmByDate.getVolume());
 		assertEquals(30, alarmByWeekDay.getVolume());
-	}
-	
-	@Test
-	public void shouldNotSetAlarmVolumeIfTypeIsVibration() throws InvalidNumberException{
-		
-		alarmByDate.setType(3);
-		
-		try {
-			alarmByDate.setVolume(10);
-			fail("Should have thrown exception");
-		} catch (InvalidAlarmConfiguration i){
-			assertEquals("Volume cannot be set to vibration type", i.getMessage());
-		}
 	}
 	
 	@Test

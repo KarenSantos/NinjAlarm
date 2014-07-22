@@ -1,7 +1,13 @@
 package models;
 
+/**
+ * Alarm class
+ * 
+ * @author Ana, Felipe, Karen, Leticia, Marcos and Maysa.
+ * 
+ */
 public abstract class Alarm {
-	
+
 	private final int DEFAULT_TYPE = 1;
 	private final int MIN_VOLUME = 0;
 	private final int DEFAULT_VOLUME = 50;
@@ -20,112 +26,229 @@ public abstract class Alarm {
 	private boolean snooze;
 	private int snoozeInterval;
 	private boolean power;
-	
-	public Alarm(){
+
+	/**
+	 * Creates an alarm with the default configuration for time, type, volume,
+	 * melody, snooze and snooze interval.
+	 */
+	public Alarm() {
 		setDefaultConfig();
 	}
-	
-	public Alarm(AlarmTime time, AlarmType type, int volume, String melody,
-			boolean snooze, int snoozeInterval) throws InvalidNumberException, InvalidAlarmConfiguration {
-		this.time = time;
-		this.type = type;
+
+	/**
+	 * Creates an alarm with a time, type, volume, melody, snooze and snooze
+	 * interval.
+	 * 
+	 * @param time
+	 *            The time when the alarm will go off.
+	 * @param type
+	 *            The number for the type of the alarm.
+	 * @param volume
+	 *            The volume for the melody of the alarm.
+	 * @param melody
+	 *            The melody to be played when the alarm goes off.
+	 * @param snooze
+	 *            The on or off snooze indication.
+	 * @param snoozeInterval
+	 *            The time interval set when snooze function is on.
+	 * @throws InvalidNumberException
+	 *             If time is not valid or if the type number is not valid or if
+	 *             the volume number is not valid or if the snooze interval is
+	 *             not valid.
+	 */
+	public Alarm(AlarmTime time, int AlarmType, int volume, String melody,
+			boolean snooze, int snoozeInterval) throws InvalidNumberException {
+		setDefaultConfig();
+		if (time != null){
+			this.time = time;
+		}
+		setType(AlarmType);
 		setVolume(volume);
-		this.melody = melody;
+		if (melody != null){
+			this.melody = melody;
+		}
 		this.snooze = snooze;
 		setSnoozeInterval(snoozeInterval);
 	}
-	
+
+	/**
+	 * Returns the alarm time.
+	 * 
+	 * @return The alarm time.
+	 */
 	public AlarmTime getTime() {
 		return time;
 	}
 
+	/**
+	 * Sets the alarm time.
+	 * 
+	 * @param hour
+	 *            The new hour for the alarm to go off.
+	 * @param minute
+	 *            The new minute for the alarm to go off.
+	 * @throws InvalidNumberException
+	 *             If hour is less than 0 or more than 23, or if minute is less
+	 *             than 0 or more than 59.
+	 */
 	public void setTime(int hour, int minute) throws InvalidNumberException {
 		this.time = new AlarmTime(hour, minute);
 	}
 
-	public AlarmType getType(){
+	/**
+	 * Returns the alarm type.
+	 * 
+	 * @return The alarm type.
+	 */
+	public AlarmType getType() {
 		return this.type;
 	}
-	
+
+	/**
+	 * Sets the alarm type from 1 to 3.
+	 * 
+	 * @param typeNum
+	 *            The new number for the alarm type.
+	 * @throws InvalidNumberException
+	 *             If the number is less than 1 or more than 3.
+	 */
 	public void setType(int typeNum) throws InvalidNumberException {
-		if (typeNum < AlarmType.MELODY.getValue() || typeNum > AlarmType.VIBRATION.getValue()){
+		if (typeNum < AlarmType.MELODY.getValue()
+				|| typeNum > AlarmType.VIBRATION.getValue()) {
 			throw new InvalidNumberException("Invalid type number");
 		}
-		
-		if (typeNum == AlarmType.MELODY.getValue()){
+
+		if (typeNum == AlarmType.MELODY.getValue()) {
 			this.type = AlarmType.MELODY;
-		}
-		else if (typeNum == AlarmType.MELODY_VIBRATION.getValue()){
+		} else if (typeNum == AlarmType.MELODY_VIBRATION.getValue()) {
 			this.type = AlarmType.MELODY_VIBRATION;
 		} else {
 			this.type = AlarmType.VIBRATION;
 			this.volume = MIN_VOLUME;
 		}
 	}
-	
-	public int getVolume(){
+
+	/**
+	 * Returns the alarm volume.
+	 * 
+	 * @return The alarm volume.
+	 */
+	public int getVolume() {
 		return this.volume;
 	}
-	
-	public void setVolume(int volume) throws InvalidNumberException, InvalidAlarmConfiguration{
-		
-		if (this.type == AlarmType.VIBRATION){
-			throw new InvalidAlarmConfiguration("Volume cannot be set to vibration type");
-		}
-		
-		if (volume < MIN_VOLUME || volume > MAX_VOLUME){
+
+	/**
+	 * Sets the alarm volume from 1 to 100.
+	 * 
+	 * @param volume
+	 *            The new volume for the alarm.
+	 * @throws InvalidNumberException
+	 *             If the number for the volume is less than 0 or more than 100.
+	 */
+	public void setVolume(int volume) throws InvalidNumberException {
+
+		if (volume < MIN_VOLUME || volume > MAX_VOLUME) {
 			throw new InvalidNumberException("Invalid volume number");
 		}
-		
-		if (volume == MIN_VOLUME){
+
+		if (volume == MIN_VOLUME) {
 			this.type = AlarmType.VIBRATION;
 		}
 		this.volume = volume;
 	}
-	
-	public String getMelody(){
+
+	/**
+	 * Returns the path for the alarm melody.
+	 * 
+	 * @return The path for the alarm melody.
+	 */
+	public String getMelody() {
 		return this.melody;
 	}
-	
-	public void setMelody(String melody){
+
+	/**
+	 * Sets the alarm melody.
+	 * 
+	 * @param melody
+	 *            The name of the new alarm melody.
+	 */
+	public void setMelody(String melody) {
 		this.melody = MELODY_PATH + melody;
 	}
-	
-	public boolean getSnooze(){
+
+	/**
+	 * Returns the indication if the snooze is on.
+	 * 
+	 * @return The indication if the snooze is on.
+	 */
+	public boolean getSnooze() {
 		return this.snooze;
 	}
-	
-	public void setSnoozeOn(){
+
+	/**
+	 * Sets the snooze on.
+	 */
+	public void setSnoozeOn() {
 		this.snooze = true;
 	}
-	
-	public void setSnoozeOff(){
+
+	/**
+	 * Sets the snooze off.
+	 */
+	public void setSnoozeOff() {
 		this.snooze = false;
 	}
-	
-	public int getSnoozeInterval(){
+
+	/**
+	 * Returns the snooze time interval.
+	 * 
+	 * @return The snooze time interval.
+	 */
+	public int getSnoozeInterval() {
 		return this.snoozeInterval;
 	}
-	
-	public void setSnoozeInterval(int interval)throws InvalidNumberException{
-		if (interval < MIN_SNOOZE_INTERVAL || interval > MAX_SNOOZE_INTERVAL){
+
+	/**
+	 * Sets the snooze time interval from 1 to 60.
+	 * 
+	 * @param interval
+	 *            The new snooze time interval.
+	 * @throws InvalidNumberException
+	 *             If the snooze time interval is less than 1 or more than 60.
+	 */
+	public void setSnoozeInterval(int interval) throws InvalidNumberException {
+		if (interval < MIN_SNOOZE_INTERVAL || interval > MAX_SNOOZE_INTERVAL) {
 			throw new InvalidNumberException("Invalid snooze interval");
 		}
 		this.snoozeInterval = interval;
 	}
-	
-	public boolean getPower(){
+
+	/**
+	 * Returns the indication if the alarm is on.
+	 * 
+	 * @return The indication if the alarm is on.
+	 */
+	public boolean getPower() {
 		return this.power;
 	}
-	
-	public void setPowerOn(){
+
+	/**
+	 * Sets the alarm on.
+	 */
+	public void setPowerOn() {
 		this.power = true;
 	}
-	
-	public void setPowerOff(){
+
+	/**
+	 * Sets the alarm off.
+	 */
+	public void setPowerOff() {
 		this.power = false;
 	}
-	
+
+	/**
+	 * Sets a default alarm configuration.
+	 */
 	public void setDefaultConfig() {
 		this.time = new AlarmTime();
 		try {
@@ -135,12 +258,12 @@ public abstract class Alarm {
 		}
 		try {
 			setVolume(DEFAULT_VOLUME);
-		} catch (InvalidNumberException | InvalidAlarmConfiguration e) {
+		} catch (InvalidNumberException e) {
 			e.printStackTrace();
 		}
 		this.melody = DEFAULT_MELODY;
 		this.snooze = DEFAULT_SNOOZE;
 		this.snoozeInterval = DEFAULT_SNOOZE_INTERVAL;
 	}
-	
+
 }
