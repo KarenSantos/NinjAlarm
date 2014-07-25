@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Set;
 	
 	/**
@@ -54,12 +55,15 @@ public class MyAlarms {
 	 * The month of the new date
 	 * @param day
 	 * The day of the new date
-	 * @throws Exception If the Alarm was not set by date.
+	 * @throws Exception If the Alarm was not set by date or if the new date of the alarm has already passed..
 	 */
 	
 	public void editAlarmByDate(AlarmByDate alarm, int year, int month, int day) throws Exception{
+		if(year<Calendar.getInstance().get(Calendar.YEAR) || month<Calendar.getInstance().get(Calendar.MONTH) || day<Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
+			throw new Exception ("This date has already passed");
+		}
 		
-		for (Alarm alarm2 : myAlarms) {
+			for (Alarm alarm2 : myAlarms) {
 			if (alarm2.equals(alarm) ){	
 				if ((alarm2 instanceof AlarmByDate)){
 				((AlarmByDate) alarm2).setDate(year,month,day);
@@ -78,9 +82,13 @@ public class MyAlarms {
 	 * The new hour of the Alarm
 	 * @param minute
 	 * The new minute of the Alarm
-	 * @throws Exception  If hour is less than 0 or more than 23, or if minute is less than 0 or more than 59.
+	 * @throws Exception  If the hour or the minute of the day set has already passed.
 	 */
 	public void editAlarmHour(Alarm alarm, int hour, int minute) throws Exception{
+		if (minute<Calendar.getInstance().get(Calendar.MINUTE) || hour<Calendar.getInstance().get(Calendar.HOUR)){
+			throw new Exception ("Past time");
+		}
+		
 		for (Alarm alarm2 : myAlarms) {
 			if (alarm2.equals(alarm) ){	
 				alarm2.setTime(hour, minute);
@@ -88,7 +96,7 @@ public class MyAlarms {
 		}
 }
 	/**
-	 * Edits the week days of an AlarmByWeekDay
+	 * Edits the working days of an AlarmByWeekDay
 	 * @param alarm
 	 * The alarm which will be edited
 	 * @param days
@@ -96,6 +104,7 @@ public class MyAlarms {
 	 * @throws Exception If any of the weekdays are not valid or if the set is null.
 	 */
 	public void editAlarmByWeekDay(AlarmByWeekDay alarm, Set<Integer> days) throws Exception{
+		
 		for (Alarm alarm2 : myAlarms) {
 			if(alarm2 instanceof AlarmByWeekDay){
 				((AlarmByWeekDay) alarm2).setDays(days);
