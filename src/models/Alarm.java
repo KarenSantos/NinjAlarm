@@ -19,6 +19,7 @@ public abstract class Alarm {
 	private final int MAX_SNOOZE_INTERVAL = 60;
 	private final int DEFAULT_SNOOZE_INTERVAL = 10;
 
+	private int id;
 	private AlarmTime time;
 	private AlarmType type;
 	private int volume;
@@ -39,6 +40,9 @@ public abstract class Alarm {
 	 * Creates an alarm with a time, type, volume, melody, snooze and snooze
 	 * interval.
 	 * 
+	 * @param id
+	 *            The id of the alarm
+	 * 
 	 * @param time
 	 *            The time when the alarm will go off.
 	 * @param type
@@ -56,19 +60,40 @@ public abstract class Alarm {
 	 *             the volume number is not valid or if the snooze interval is
 	 *             not valid.
 	 */
-	public Alarm(AlarmTime time, int AlarmType, int volume, String melody,
-			boolean snooze, int snoozeInterval) throws InvalidNumberException {
+	public Alarm(int id, AlarmTime time, int AlarmType, int volume,
+			String melody, boolean snooze, int snoozeInterval)
+			throws InvalidNumberException {
+		this.id = id;
 		setDefaultConfig();
-		if (time != null){
+		if (time != null) {
 			this.time = time;
 		}
 		setType(AlarmType);
 		setVolume(volume);
-		if (melody != null){
+		if (melody != null) {
 			this.melody = melody;
 		}
 		this.snooze = snooze;
 		setSnoozeInterval(snoozeInterval);
+	}
+
+	/**
+	 * Returns the alarm id
+	 * 
+	 * @return the alarm id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Sets the alarm id
+	 * 
+	 * @param id
+	 *            the new alarm id
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -83,16 +108,14 @@ public abstract class Alarm {
 	/**
 	 * Sets the alarm time.
 	 * 
-	 * @param hour
-	 *            The new hour for the alarm to go off.
-	 * @param minute
-	 *            The new minute for the alarm to go off.
+	 * @param time
+	 *            The new time for the alarm to go off.
 	 * @throws InvalidNumberException
 	 *             If hour is less than 0 or more than 23, or if minute is less
 	 *             than 0 or more than 59.
 	 */
-	public void setTime(int hour, int minute) throws InvalidNumberException {
-		this.time = new AlarmTime(hour, minute);
+	public void setTime(AlarmTime time) throws InvalidNumberException {
+		this.time = time;
 	}
 
 	/**
@@ -186,17 +209,10 @@ public abstract class Alarm {
 	}
 
 	/**
-	 * Sets the snooze on.
+	 * Sets the snooze of the alarm.
 	 */
-	public void setSnoozeOn() {
-		this.snooze = true;
-	}
-
-	/**
-	 * Sets the snooze off.
-	 */
-	public void setSnoozeOff() {
-		this.snooze = false;
+	public void setSnooze(boolean snooze) {
+		this.snooze = snooze;
 	}
 
 	/**

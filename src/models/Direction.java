@@ -11,14 +11,12 @@ import java.util.Random;
 public class Direction {
 
 	private Random rand = new Random();
-	
 	private int[] possibleDirections = {1,0,-1};
-	
+	private int[] possibleDirections2 = {1,-1};
 	private Tuple direction;
 	
 	/**
 	 * A standard Direction begins with the coordinates set as a tuple of zeros. 
-	 * 
 	 */
 	public Direction(){
 		direction = new Tuple(0,0);
@@ -41,7 +39,7 @@ public class Direction {
 	 * 
 	 **/
 	public int getX(){
-		return direction.x;
+		return direction.getX();
 	}
 	
 	/**
@@ -51,7 +49,7 @@ public class Direction {
 	 * 
 	 **/
 	public int getY(){
-		return direction.y;
+		return direction.getY();
 	}
 	
 	/**
@@ -59,12 +57,18 @@ public class Direction {
 	 * Each coordinate could be: 1, 0 or -1.
 	 *  
 	 **/
-	public void setDirection(){
-		int randX = possibleDirections[rand.nextInt(3)];
-		int randY = possibleDirections[rand.nextInt(3)];
+	public void changeDirection() {
 		
-		direction.x = randX;
-		direction.y = randY;
+		int randX = possibleDirections[rand.nextInt(possibleDirections.length)];
+		int randY;
+		if(randX == 0) {
+			randY = possibleDirections2[rand.nextInt(possibleDirections2.length)];
+		} else {
+			randY = possibleDirections[rand.nextInt(possibleDirections.length)];
+		}
+		direction.setX(randX);
+		direction.setY(randY);
+		
 	}
 	
 	

@@ -44,6 +44,8 @@ public class AlarmByWeekDay extends Alarm {
 	 * Creates an alarm with a time, a date, type, volume, melody, snooze and
 	 * snooze interval.
 	 * 
+	 * @param id
+	 * 			  The id of the alarm
 	 * @param time
 	 *            The time when the alarm will go off.
 	 * @param days
@@ -63,10 +65,10 @@ public class AlarmByWeekDay extends Alarm {
 	 *             not valid or if the type number is not valid or if the volume
 	 *             number is not valid or if the snooze interval is not valid.
 	 */
-	public AlarmByWeekDay(AlarmTime time, Set<Integer> days, int type,
+	public AlarmByWeekDay(int id, AlarmTime time, Set<Integer> days, int type,
 			int volume, String melody, boolean snooze, int snoozeInterval)
 			throws InvalidNumberException {
-		super(time, type, volume, melody, snooze, snoozeInterval);
+		super(id, time, type, volume, melody, snooze, snoozeInterval);
 		setDays(days);
 	}
 

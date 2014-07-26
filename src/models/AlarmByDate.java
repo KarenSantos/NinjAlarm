@@ -23,6 +23,8 @@ public class AlarmByDate extends Alarm {
 	 * Creates an alarm with a time, a date, type, volume, melody, snooze and
 	 * snooze interval.
 	 * 
+	 * @param id
+	 *            The id of the alarm
 	 * @param time
 	 *            The time when the alarm will go off.
 	 * @param date
@@ -42,11 +44,11 @@ public class AlarmByDate extends Alarm {
 	 *             the volume number is not valid or if the snooze interval is
 	 *             not valid.
 	 */
-	public AlarmByDate(AlarmTime time, AlarmDate date, int type, int volume,
-			String melody, boolean snooze, int snoozeInterval)
+	public AlarmByDate(int id, AlarmTime time, AlarmDate date, int type,
+			int volume, String melody, boolean snooze, int snoozeInterval)
 			throws InvalidNumberException {
-		super(time, type, volume, melody, snooze, snoozeInterval);
-		if (date == null){
+		super(id, time, type, volume, melody, snooze, snoozeInterval);
+		if (date == null) {
 			this.date = new AlarmDate();
 		} else {
 			this.date = date;
@@ -65,17 +67,12 @@ public class AlarmByDate extends Alarm {
 	/**
 	 * Sets the alarm date with a year, month and day.
 	 * 
-	 * @param year
-	 *            The year of the date.
-	 * @param month
-	 *            The month of the date.
-	 * @param day
-	 *            The day of the date.
+	 * @param date
+	 *            The new date of the date.
 	 * @throws InvalidNumberException
 	 *             If the date is a past date, or an invalid date.
 	 */
-	public void setDate(int year, int month, int day)
-			throws InvalidNumberException {
-		this.date = new AlarmDate(year, month, day);
+	public void setDate(AlarmDate date) throws InvalidNumberException {
+		this.date = date;
 	}
 }

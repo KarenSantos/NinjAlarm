@@ -147,4 +147,44 @@ public class AlarmDate {
 
 		this.day = day;
 	}
+
+	/**
+	 * Returns if the date is a past date
+	 * 
+	 * @return true if the date is a past date
+	 */
+	public boolean isPastDate() {
+		boolean isPastDate = false;
+		if (year < Calendar.getInstance().get(Calendar.YEAR)) {
+			isPastDate = true;
+		} else {
+			if (month < Calendar.getInstance().get(Calendar.MONTH) + 1) {
+				isPastDate = true;
+			} else if (month == Calendar.getInstance().get(Calendar.MONTH) + 1) {
+				if (day < Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+					isPastDate = true;
+				}
+			}
+		}
+
+		return isPastDate;
+	}
+	
+	/**
+	 * Returns if the date is the current date
+	 * @return true if the date is the current date
+	 */
+	public boolean isCurrentDate() {
+		boolean isCurrentDate = false;
+		if (year == Calendar.getInstance().get(Calendar.YEAR)) {
+			if (month == Calendar.getInstance().get(Calendar.MONTH) + 1) {
+				if (day == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+					isCurrentDate = true;
+				}
+			}
+		}
+		return isCurrentDate;
+	}
+	
+	
 }

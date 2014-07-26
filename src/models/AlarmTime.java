@@ -13,6 +13,7 @@ public class AlarmTime {
 	private final int MAX_HOUR = 23;
 	private final int MAX_MINUTE = 59;
 	private final int MINIMUM = 0;
+	private final int HOUR = 60;
 	private int hour;
 	private int minute;
 
@@ -86,5 +87,29 @@ public class AlarmTime {
 			throw new InvalidNumberException("The minute must be from 0 to 59");
 		}
 		this.minute = minute;
+	}
+	
+	/**
+	 * Returns if the time is a past time
+	 * @return true if the time is a
+	 */
+	public boolean isPastTime() {
+		boolean isPastTime = false;
+		if (hour < Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+			isPastTime = true;
+		} else if (hour == Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+			if (minute <= Calendar.getInstance().get(Calendar.MINUTE)) {
+				isPastTime = true;
+			}
+		}
+		return isPastTime;
+	}
+	
+	/**
+	 * Returns the total amount minutes of the alarm time
+	 * @return the total amount of minutes of the alarm time
+	 */
+	public int changeToMinutes() {
+		return hour*HOUR + minute;
 	}
 }
