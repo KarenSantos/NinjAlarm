@@ -5,10 +5,10 @@ package models;
  * @author Ana, Felipe, Karen, Leticia, Marcos and Maysa.
  *
  */
-public class Round {
+public class Round implements Comparable<Round>{
 	
 	private int time;
-	private StopButton level;
+	private StopButton button;
 	
 	/**
 	 * Returns the time obtained in the round
@@ -28,20 +28,25 @@ public class Round {
 	}
 	
 	/**
-	 * Returns the level of the round
-	 * @return the level
+	 * Returns the button of the round
+	 * @return the button
 	 */
-	public StopButton getLevel() {
-		return level;
+	public StopButton getButton() {
+		return button;
 	}
 	
 	/**
-	 * Sets the level 
-	 * @param level
-	 * 		The new level 
+	 * Sets the button 
+	 * @param button
+	 * 		The new button 
 	 */
-	public void setLevel(StopButton level) {
-		this.level = level;
+	public void setButton(StopButton button) {
+		this.button = button;
+	}
+
+	@Override
+	public int compareTo(Round r) {
+		return this.time - r.getTime();
 	}
 	
 	

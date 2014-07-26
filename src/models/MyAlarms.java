@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -92,6 +93,7 @@ public class MyAlarms {
 		myAlarms.add(new AlarmByDate(idCount, time, date, AlarmType, volume,
 				melody, snooze, snoozeInterval));
 		idCount++;
+		Collections.sort(myAlarms);
 	}
 
 	/**
@@ -124,6 +126,7 @@ public class MyAlarms {
 		myAlarms.add(new AlarmByWeekDay(idCount, time, days, AlarmType, volume,
 				melody, snooze, snoozeInterval));
 		idCount++;
+		Collections.sort(myAlarms);
 	}
 
 	/**
@@ -192,6 +195,7 @@ public class MyAlarms {
 		alarm.setMelody(melody);
 		alarm.setSnooze(snooze);
 		alarm.setSnoozeInterval(snoozeInterval);
+		Collections.sort(myAlarms);
 	}
 
 	/**
@@ -236,6 +240,7 @@ public class MyAlarms {
 		alarm.setMelody(melody);
 		alarm.setSnooze(snooze);
 		alarm.setSnoozeInterval(snoozeInterval);
+		Collections.sort(myAlarms);
 	}
 
 	/**

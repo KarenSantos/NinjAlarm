@@ -6,7 +6,7 @@ package models;
  * @author Ana, Felipe, Karen, Leticia, Marcos and Maysa.
  * 
  */
-public abstract class Alarm {
+public abstract class Alarm implements Comparable<Alarm>{
 
 	private final int DEFAULT_TYPE = 1;
 	private final int MIN_VOLUME = 0;
@@ -280,6 +280,14 @@ public abstract class Alarm {
 		this.melody = DEFAULT_MELODY;
 		this.snooze = DEFAULT_SNOOZE;
 		this.snoozeInterval = DEFAULT_SNOOZE_INTERVAL;
+	}
+	
+	/**
+	 * Compares two alarms by time
+	 */
+	@Override
+	public int compareTo(Alarm a) {
+		return this.getTime().changeToMinutes() - a.getTime().changeToMinutes();
 	}
 
 }
