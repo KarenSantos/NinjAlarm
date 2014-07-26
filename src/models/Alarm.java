@@ -6,7 +6,7 @@ package models;
  * @author Ana, Felipe, Karen, Leticia, Marcos and Maysa.
  * 
  */
-public abstract class Alarm implements Comparable<Alarm>{
+public abstract class Alarm implements Comparable<Alarm> {
 
 	private final int DEFAULT_TYPE = 1;
 	private final int MIN_VOLUME = 0;
@@ -26,6 +26,7 @@ public abstract class Alarm implements Comparable<Alarm>{
 	private String melody;
 	private boolean snooze;
 	private int snoozeInterval;
+	private AlarmTime snoozeTime;
 	private boolean power;
 
 	/**
@@ -116,6 +117,7 @@ public abstract class Alarm implements Comparable<Alarm>{
 	 */
 	public void setTime(AlarmTime time) throws InvalidNumberException {
 		this.time = time;
+		this.snoozeTime = this.time;
 	}
 
 	/**
@@ -240,6 +242,31 @@ public abstract class Alarm implements Comparable<Alarm>{
 	}
 
 	/**
+	 * Returns the snooze time.
+	 * 
+	 * @return The snooze time.
+	 */
+	public AlarmTime getSnoozeTime() {
+		return this.snoozeTime;
+	}
+
+	/**
+	 * Adds the snooze interval time to the snooze time;
+	 */
+	public void activateSnooze() {
+		if (this.snooze) {
+			this.snoozeTime.addTime(snoozeInterval);
+		}
+	}
+
+	/**
+	 * Dismisses the alarm and resets the snooze time.
+	 */
+	public void dismissAlarm() {
+		this.snoozeTime = getTime();
+	}
+
+	/**
 	 * Returns the indication if the alarm is on.
 	 * 
 	 * @return The indication if the alarm is on.
@@ -267,6 +294,7 @@ public abstract class Alarm implements Comparable<Alarm>{
 	 */
 	public void setDefaultConfig() {
 		this.time = new AlarmTime();
+		this.snoozeTime = this.time;
 		try {
 			setType(DEFAULT_TYPE);
 		} catch (InvalidNumberException e) {
@@ -281,7 +309,7 @@ public abstract class Alarm implements Comparable<Alarm>{
 		this.snooze = DEFAULT_SNOOZE;
 		this.snoozeInterval = DEFAULT_SNOOZE_INTERVAL;
 	}
-	
+
 	/**
 	 * Compares two alarms by time
 	 */

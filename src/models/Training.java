@@ -20,6 +20,15 @@ public class Training {
 	public Training() {
 		rounds = new ArrayList<Round>();
 	}
+	
+	/**
+	 * Returns the rounds list
+	 * @return the rounds 
+	 */
+	public List<Round> getRounds() {
+		return rounds;
+	}
+	
 	/**
 	 * Adds the round to the rounds list
 	 * @param round
@@ -33,12 +42,5 @@ public class Training {
 		}
 	}
 
-	/**
-	 * Returns the rounds list
-	 * @return the rounds 
-	 */
-	public List<Round> getRounds() {
-		return rounds;
-	}
 
 }

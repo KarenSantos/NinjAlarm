@@ -88,9 +88,10 @@ public class AlarmTime {
 		}
 		this.minute = minute;
 	}
-	
+
 	/**
 	 * Returns if the time is a past time
+	 * 
 	 * @return true if the time is a
 	 */
 	public boolean isPastTime() {
@@ -104,12 +105,27 @@ public class AlarmTime {
 		}
 		return isPastTime;
 	}
-	
+
 	/**
 	 * Returns the total amount minutes of the alarm time
+	 * 
 	 * @return the total amount of minutes of the alarm time
 	 */
 	public int changeToMinutes() {
-		return hour*HOUR + minute;
+		return hour * HOUR + minute;
+	}
+
+	/**
+	 * Adds an extra time in minutes to the alarm time.
+	 * 
+	 * @param extra
+	 *            The extra time in minutes.
+	 */
+	public void addTime(int extra) {
+		int totalMin = this.minute + extra;
+		if (totalMin > MAX_MINUTE) {
+			this.hour = getHour() + 1;
+			this.minute = getMinute() + (totalMin - MAX_MINUTE);
+		}
 	}
 }

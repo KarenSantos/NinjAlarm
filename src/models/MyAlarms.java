@@ -30,7 +30,7 @@ public class MyAlarms {
 	 * 
 	 * @return The ArrayList of the Alarms
 	 */
-	public List<Alarm> getMyAlarms() {
+	public List<Alarm> getAlarms() {
 		return myAlarms;
 	}
 
@@ -245,6 +245,7 @@ public class MyAlarms {
 
 	/**
 	 * Returns the alarm with the closest alarm time
+	 * 
 	 * @return the alarm with the closest alarm time
 	 */
 	public Alarm getNextAlarm() {
@@ -259,8 +260,35 @@ public class MyAlarms {
 				if (num > 0 && num < nextAlarm.getTime().changeToMinutes()) {
 					nextAlarm = a;
 				}
+				if (a.getSnooze()) {
+					next = a.getSnoozeTime().changeToMinutes();
+					num = next - now;
+					if (num > 0 && num < nextAlarm.getTime().changeToMinutes()) {
+						nextAlarm = a;
+					}
+				}
 			}
 		}
 		return nextAlarm;
+	}
+
+	/**
+	 * Activates the snooze of the alarm with the given id;
+	 * 
+	 * @param id
+	 *            The id of the alarm to activate the snooze.
+	 */
+	public void activateSnooze(int id) {
+		getAlarmById(id).activateSnooze();
+	}
+
+	/**
+	 * Dismisses the alarm with the given id and resets the snooze time.
+	 * 
+	 * @param id
+	 *            The id of the alarm to be dismissed.
+	 */
+	public void dismissAlarm(int id) {
+		getAlarmById(id).dismissAlarm();
 	}
 }

@@ -11,6 +11,18 @@ public class Round implements Comparable<Round>{
 	private StopButton button;
 	
 	/**
+	 * Creates a new Round with time and a stopButton level 
+	 * @param time
+	 * 		the time of the round 
+	 * @param button
+	 * 		the button level
+	 */
+	public Round(int time, StopButton button) {
+		this.time = time;
+		this.button = button;
+	}
+
+	/**
 	 * Returns the time obtained in the round
 	 * @return the time obtained
 	 */
