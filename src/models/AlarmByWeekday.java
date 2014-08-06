@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  * @author Ana, Felipe, Karen, Leticia, Marcos and Maysa.
  * 
  */
-public class AlarmByWeekDay extends Alarm {
+public class AlarmByWeekday extends Alarm {
 
 	private final int SUNDAY = 1;
 	private final int MONDAY = 2;
@@ -26,7 +27,7 @@ public class AlarmByWeekDay extends Alarm {
 	 * Creates a new alarm by weekday with the default configuration for time,
 	 * type, volume, melody, snooze, snooze interval and for all weekdays.
 	 */
-	public AlarmByWeekDay() {
+	public AlarmByWeekday() {
 		super();
 		this.days = new HashSet<Integer>();
 		days.add(SUNDAY);
@@ -38,38 +39,6 @@ public class AlarmByWeekDay extends Alarm {
 		days.add(SATURDAY);
 
 		this.repeat = true;
-	}
-
-	/**
-	 * Creates an alarm with a time, a date, type, volume, melody, snooze and
-	 * snooze interval.
-	 * 
-	 * @param id
-	 * 			  The id of the alarm
-	 * @param time
-	 *            The time when the alarm will go off.
-	 * @param days
-	 *            The set of the chosen weekdays.
-	 * @param type
-	 *            The number for the type of the alarm.
-	 * @param volume
-	 *            The volume for the melody of the alarm.
-	 * @param melody
-	 *            The melody to be played when the alarm goes off.
-	 * @param snooze
-	 *            The on or off snooze indication.
-	 * @param snoozeInterval
-	 *            The time interval set when snooze function is on.
-	 * @throws InvalidNumberException
-	 *             If time is not valid or if the numbers for the weekdays are
-	 *             not valid or if the type number is not valid or if the volume
-	 *             number is not valid or if the snooze interval is not valid.
-	 */
-	public AlarmByWeekDay(int id, AlarmTime time, Set<Integer> days, int type,
-			int volume, String melody, boolean snooze, int snoozeInterval)
-			throws InvalidNumberException {
-		super(id, time, type, volume, melody, snooze, snoozeInterval);
-		setDays(days);
 	}
 
 	/**
@@ -87,12 +56,16 @@ public class AlarmByWeekDay extends Alarm {
 	 * @param days
 	 *            The new set with the weekdays.
 	 * @throws InvalidNumberException
-	 *             If any of the weekdays are not valid or if the set is null.
+	 *             If any of the weekdays are not valid or if the set is null or
+	 *             bigger than 7.
 	 */
 	public void setDays(Set<Integer> days) throws InvalidNumberException {
 
-		if (days == null){
+		if (days == null) {
 			throw new InvalidNumberException("Invalid set.");
+		}
+		if (days.size() > SATURDAY) {
+			throw new InvalidNumberException("Invalid size for the days set");
 		}
 		for (Integer i : days) {
 			if (i < MONDAY || i > SATURDAY) {
@@ -108,22 +81,34 @@ public class AlarmByWeekDay extends Alarm {
 	 * 
 	 * @return The indication if the repeat function is on.
 	 */
-	public boolean repeat() {
+	public boolean getRepeat() {
 		return this.repeat;
 	}
 
 	/**
-	 * Sets the repeat function on.
+	 * Sets the repeat option of the alarm.
+	 * 
+	 * @param repeat
+	 *            The new repeat option of the alarm.
+	 * 
 	 */
-	public void setRepeatOn() {
-		this.repeat = true;
+	public void setRepeat(boolean repeat) {
+		this.repeat = repeat;
 	}
 
 	/**
-	 * Sets the repeat function off.
+	 * Returns if the alarm is set for today.
+	 * 
+	 * @return True if the alarm date is today of False otherwise.
 	 */
-	public void setRepeatOff() {
-		this.repeat = false;
+	@Override
+	public boolean isForToday(){
+		boolean response = false;
+		int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		if (this.days.contains(today)) {
+			response = true;
+		}
+		return response;
 	}
 
 }

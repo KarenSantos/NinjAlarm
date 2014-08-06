@@ -8,7 +8,7 @@ package models;
  */
 public abstract class Alarm implements Comparable<Alarm> {
 
-	private final int DEFAULT_TYPE = 1;
+	private final AlarmType DEFAULT_TYPE = AlarmType.MELODY;
 	private final int MIN_VOLUME = 0;
 	private final int DEFAULT_VOLUME = 50;
 	private final int MAX_VOLUME = 100;
@@ -18,6 +18,7 @@ public abstract class Alarm implements Comparable<Alarm> {
 	private final int MIN_SNOOZE_INTERVAL = 1;
 	private final int MAX_SNOOZE_INTERVAL = 60;
 	private final int DEFAULT_SNOOZE_INTERVAL = 10;
+	private final boolean DEFAULT_POWER = true;
 
 	private int id;
 	private AlarmTime time;
@@ -35,47 +36,6 @@ public abstract class Alarm implements Comparable<Alarm> {
 	 */
 	public Alarm() {
 		setDefaultConfig();
-	}
-
-	/**
-	 * Creates an alarm with a time, type, volume, melody, snooze and snooze
-	 * interval.
-	 * 
-	 * @param id
-	 *            The id of the alarm
-	 * 
-	 * @param time
-	 *            The time when the alarm will go off.
-	 * @param type
-	 *            The number for the type of the alarm.
-	 * @param volume
-	 *            The volume for the melody of the alarm.
-	 * @param melody
-	 *            The melody to be played when the alarm goes off.
-	 * @param snooze
-	 *            The on or off snooze indication.
-	 * @param snoozeInterval
-	 *            The time interval set when snooze function is on.
-	 * @throws InvalidNumberException
-	 *             If time is not valid or if the type number is not valid or if
-	 *             the volume number is not valid or if the snooze interval is
-	 *             not valid.
-	 */
-	public Alarm(int id, AlarmTime time, int AlarmType, int volume,
-			String melody, boolean snooze, int snoozeInterval)
-			throws InvalidNumberException {
-		this.id = id;
-		setDefaultConfig();
-		if (time != null) {
-			this.time = time;
-		}
-		setType(AlarmType);
-		setVolume(volume);
-		if (melody != null) {
-			this.melody = melody;
-		}
-		this.snooze = snooze;
-		setSnoozeInterval(snoozeInterval);
 	}
 
 	/**
@@ -111,11 +71,8 @@ public abstract class Alarm implements Comparable<Alarm> {
 	 * 
 	 * @param time
 	 *            The new time for the alarm to go off.
-	 * @throws InvalidNumberException
-	 *             If hour is less than 0 or more than 23, or if minute is less
-	 *             than 0 or more than 59.
 	 */
-	public void setTime(AlarmTime time) throws InvalidNumberException {
+	public void setTime(AlarmTime time) {
 		this.time = time;
 		this.snoozeTime = this.time;
 	}
@@ -134,23 +91,9 @@ public abstract class Alarm implements Comparable<Alarm> {
 	 * 
 	 * @param typeNum
 	 *            The new number for the alarm type.
-	 * @throws InvalidNumberException
-	 *             If the number is less than 1 or more than 3.
 	 */
-	public void setType(int typeNum) throws InvalidNumberException {
-		if (typeNum < AlarmType.MELODY.getValue()
-				|| typeNum > AlarmType.VIBRATION.getValue()) {
-			throw new InvalidNumberException("Invalid type number");
-		}
-
-		if (typeNum == AlarmType.MELODY.getValue()) {
-			this.type = AlarmType.MELODY;
-		} else if (typeNum == AlarmType.MELODY_VIBRATION.getValue()) {
-			this.type = AlarmType.MELODY_VIBRATION;
-		} else {
-			this.type = AlarmType.VIBRATION;
-			this.volume = MIN_VOLUME;
-		}
+	public void setType(AlarmType type) {
+		this.type = type;
 	}
 
 	/**
@@ -267,26 +210,22 @@ public abstract class Alarm implements Comparable<Alarm> {
 	}
 
 	/**
-	 * Returns the indication if the alarm is on.
+	 * Returns if the alarm is on.
 	 * 
-	 * @return The indication if the alarm is on.
+	 * @return True if the alarm is on and False if not.
 	 */
 	public boolean getPower() {
 		return this.power;
 	}
 
 	/**
-	 * Sets the alarm on.
+	 * Sets the alarm power on of off.
+	 * 
+	 * @param power The new alarm power option.
+	 * 
 	 */
-	public void setPowerOn() {
-		this.power = true;
-	}
-
-	/**
-	 * Sets the alarm off.
-	 */
-	public void setPowerOff() {
-		this.power = false;
+	public void setPower(boolean power) {
+		this.power = power;
 	}
 
 	/**
@@ -295,11 +234,7 @@ public abstract class Alarm implements Comparable<Alarm> {
 	public void setDefaultConfig() {
 		this.time = new AlarmTime();
 		this.snoozeTime = this.time;
-		try {
-			setType(DEFAULT_TYPE);
-		} catch (InvalidNumberException e) {
-			e.printStackTrace();
-		}
+		setType(DEFAULT_TYPE);
 		try {
 			setVolume(DEFAULT_VOLUME);
 		} catch (InvalidNumberException e) {
@@ -308,7 +243,15 @@ public abstract class Alarm implements Comparable<Alarm> {
 		this.melody = DEFAULT_MELODY;
 		this.snooze = DEFAULT_SNOOZE;
 		this.snoozeInterval = DEFAULT_SNOOZE_INTERVAL;
+		this.power = DEFAULT_POWER;
 	}
+	
+	/**
+	 * Returns if the alarm is set for today.
+	 * 
+	 * @return True if the alarm date is today of False otherwise.
+	 */
+	abstract boolean isForToday();
 
 	/**
 	 * Compares two alarms by time

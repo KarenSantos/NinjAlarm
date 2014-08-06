@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Set;
 
 import models.Alarm;
-import models.AlarmByDate;
 import models.AlarmDate;
 import models.AlarmTime;
+import models.AlarmType;
 import models.InvalidConfigurationException;
 import models.InvalidNumberException;
 import models.MyAlarms;
@@ -22,21 +22,34 @@ import models.Training;
  */
 public class Controller {
 
+	private static Controller controller;
+
 	private Training training;
 	private MyAlarms myAlarms;
 
 	/**
-	 * Creates a new NinjAlarm Controller
+	 * Creates a new NinjAlarm Controller.
 	 */
-	public Controller() {
+	private Controller() {
 		training = new Training();
 		myAlarms = new MyAlarms();
 	}
 
 	/**
-	 * Retrieves the ArrayList of the alarms that have already been set up
+	 * Returns a singleton NinjAlarm Controller.
 	 * 
-	 * @return The ArrayList of the Alarms
+	 * @return A NinjAlarm Controller.
+	 */
+	public static Controller getController() {
+		if (controller == null)
+			controller = new Controller();
+		return controller;
+	}
+
+	/**
+	 * Retrieves the ArrayList of the alarms that have already been set up.
+	 * 
+	 * @return The ArrayList of the Alarms.
 	 */
 	public List<Alarm> getAlarms() {
 		return myAlarms.getAlarms();
@@ -54,55 +67,17 @@ public class Controller {
 	}
 
 	/**
-	 * Adds an Alarm to the MyAlarms List.
+	 * Adds an Alarm to MyAlarms.
 	 * 
-	 * @param hour
-	 *            The hour of the alarm time.
-	 * @param minute
-	 *            The minute of the alarm time.
-	 * @param year
-	 *            The year of the alarm date.
-	 * @param month
-	 *            The month of the alarm date.
-	 * @param day
-	 *            The day of the alarm date.
-	 * @param days
-	 *            The set of the chosen weekdays.
-	 * @param type
-	 *            The number for the type of the alarm.
-	 * @param volume
-	 *            The volume for the melody of the alarm.
-	 * @param melody
-	 *            The melody to be played when the alarm goes off.
-	 * @param snooze
-	 *            The on or off snooze indication.
-	 * @param snoozeInterval
-	 *            The time interval set when snooze function is on.
-	 * @throws InvalidNumberException
-	 *             If time is not valid or if the type number is not valid or if
-	 *             the volume number is not valid or if the snooze interval is
-	 *             not valid.
-	 * @throws InvalidConfigurationException
-	 *             If the date is a past date
+	 * @param alarm
+	 *            The alarm to be added.
 	 */
-	public void addAlarm(int hour, int minute, int year, int month, int day,
-			Set<Integer> days, int AlarmType, int volume, String melody,
-			boolean snooze, int snoozeInterval) throws InvalidNumberException,
-			InvalidConfigurationException {
-
-		AlarmTime time = new AlarmTime(hour, minute);
-		if (year < 0) {
-			myAlarms.addAlarmByWeekDay(time, days, AlarmType, volume, melody,
-					snooze, snoozeInterval);
-		} else {
-			AlarmDate date = new AlarmDate(year, month, day);
-			myAlarms.addAlarmByDate(time, date, AlarmType, volume, melody,
-					snooze, snoozeInterval);
-		}
+	public void addAlarm(Alarm alarm) {
+		myAlarms.addAlarm(alarm);
 	}
 
 	/**
-	 * Removes an Alarm from MyAlarms List
+	 * Removes an Alarm from MyAlarms
 	 * 
 	 * @param id
 	 *            The id of the alarm to be deleted
@@ -112,78 +87,142 @@ public class Controller {
 	}
 
 	/**
-	 * Edits an alarm
+	 * Sets an alarm time.
 	 * 
 	 * @param id
-	 *            The id of the alarm
-	 * @param hour
-	 *            The hour of the alarm time.
-	 * @param minute
-	 *            The minute of the alarm time.
-	 * @param year
-	 *            The year of the alarm date.
-	 * @param month
-	 *            The month of the alarm date.
-	 * @param day
-	 *            The day of the alarm date.
-	 * @param days
-	 *            The set of the chosen weekdays.
-	 * @param type
-	 *            The number for the type of the alarm.
-	 * @param volume
-	 *            The volume for the melody of the alarm.
-	 * @param melody
-	 *            The melody to be played when the alarm goes off.
-	 * @param snooze
-	 *            The on or off snooze indication.
-	 * @param snoozeInterval
-	 *            The time interval set when snooze function is on.
-	 * @throws InvalidNumberException
-	 *             If the alarm id is not valid or if time is not valid or if
-	 *             the type number is not valid or if the volume number is not
-	 *             valid or if the snooze interval is not valid.
+	 *            The alarm to be edited.
+	 * @param time
+	 *            The new time of the alarm.
 	 * @throws InvalidConfigurationException
-	 *             If the date is a past date
+	 *             If the alarm is an alarmByDate set for today and time is a
+	 *             past time.
 	 */
-	public void editAlarmByDate(int id, int hour, int minute, int year,
-			int month, int day, Set<Integer> days, int type, int volume,
-			String melody, boolean snooze, int snoozeInterval)
-			throws InvalidNumberException, InvalidConfigurationException {
-		AlarmTime time = new AlarmTime(hour, minute);
-
-		Alarm alarm = myAlarms.getAlarmById(id);
-		if (alarm != null) {
-			if (alarm instanceof AlarmByDate) {
-				if (year < 0) {
-					myAlarms.deleteAlarm(id);
-					myAlarms.addAlarmByWeekDay(time, days, type, volume,
-							melody, snooze, snoozeInterval);
-				} else {
-					AlarmDate date = new AlarmDate(year, month, day);
-					myAlarms.editAlarmByDate(id, time, date, type, volume,
-							melody, snooze, snoozeInterval);
-				}
-			} else {
-				if (year < 0) {
-					myAlarms.editAlarmByWeekDay(id, time, days, type, volume,
-							melody, snooze, snoozeInterval);
-				} else {
-					AlarmDate date = new AlarmDate(year, month, day);
-					myAlarms.deleteAlarm(id);
-					myAlarms.addAlarmByDate(time, date, type, volume, melody,
-							snooze, snoozeInterval);
-				}
-			}
-		}
+	public void editAlarmTime(int id, AlarmTime time)
+			throws InvalidConfigurationException {
+		myAlarms.setAlarmTime(id, time);
 	}
 
 	/**
-	 * Returns the alarm with the closest alarm time
+	 * Sets an AlarmByDate date.
 	 * 
-	 * @return the alarm with the closest alarm time
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param date
+	 *            The new date of the alarm.
 	 */
-	public Alarm getNextAlarm() {
-		return myAlarms.getNextAlarm();
+	public void editAlarmDate(int id, AlarmDate date) {
+		myAlarms.setAlarmDate(id, date);
+	}
+
+	/**
+	 * Sets an AlarmByWeekday days.
+	 * 
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param days
+	 *            The new days list of the alarm.
+	 * @throws InvalidNumberException
+	 *             If any of the weekdays are not valid or if the set is null or
+	 *             bigger than 7.
+	 */
+	public void editAlarmDays(int id, Set<Integer> days)
+			throws InvalidNumberException {
+		myAlarms.setAlarmDays(id, days);
+	}
+
+	/**
+	 * Sets an alarm repeat option.
+	 * 
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param repeat
+	 *            The new repeat option of the alarm.
+	 */
+	public void editAlarmRepeat(int id, boolean repeat)
+			throws InvalidNumberException {
+		myAlarms.setAlarmRepeat(id, repeat);
+	}
+
+	/**
+	 * Sets an alarm type.
+	 * 
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param type
+	 *            The new type of the alarm.
+	 */
+	public void editAlarmType(int id, AlarmType type)
+			throws InvalidNumberException {
+		myAlarms.setAlarmType(id, type);
+	}
+
+	/**
+	 * Sets an alarm volume.
+	 * 
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param volume
+	 *            The new volume of the alarm.
+	 * @throws InvalidNumberException
+	 *             If the number for the volume is less than 0 or more than 100.
+	 */
+	public void editAlarmVolume(int id, int volume)
+			throws InvalidNumberException {
+		myAlarms.setAlarmVolume(id, volume);
+	}
+
+	/**
+	 * Sets an alarm melody.
+	 * 
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param melody
+	 *            The new melody of the alarm.
+	 */
+	public void editAlarmMelody(int id, String melody) {
+		myAlarms.setAlarmMelody(id, melody);
+	}
+
+	/**
+	 * Sets an alarm snooze option.
+	 * 
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param snooze
+	 *            The new snooze option of the alarm.
+	 */
+	public void editAlarmSnooze(int id, boolean snooze) {
+		myAlarms.setAlarmSnooze(id, snooze);
+	}
+
+	/**
+	 * Sets an alarm snooze interval.
+	 * 
+	 * @param id
+	 *            The alarm to be edited.
+	 * @param snoozeInterval
+	 *            The new snoozeInterval of the alarm.
+	 * @throws InvalidNumberException
+	 *             If the snooze time interval is less than 1 or more than 60.
+	 */
+	public void editAlarmSnoozeInterval(int id, int snoozeInterval)
+			throws InvalidNumberException {
+		myAlarms.setAlarmSnoozeInterval(id, snoozeInterval);
+	}
+
+	/**
+	 * Sets an alarm power option on of off.
+	 * 
+	 * @param id
+	 *            The id of the alarm to be set.
+	 * @param power
+	 *            The new power option of the alarm.
+	 */
+	public void setAlarmPower(int id, boolean power) {
+		Alarm alarm = getAlarmById(id);
+		if (alarm != null) {
+			alarm.setPower(power);
+		}
 	}
 
 	/**
@@ -223,6 +262,15 @@ public class Controller {
 	 */
 	public void addRound(int time, StopButton button) {
 		training.addRound(new Round(time, button));
+	}
+
+	/**
+	 * Returns the alarm with the closest alarm time
+	 * 
+	 * @return the alarm with the closest alarm time
+	 */
+	public Alarm getNextAlarm() {
+		return myAlarms.getNextAlarm();
 	}
 
 }
