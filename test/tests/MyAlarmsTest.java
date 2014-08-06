@@ -1,83 +1,75 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import models.AlarmByDate;
-import models.AlarmByWeekDay;
-import models.AlarmDate;
+import models.AlarmByWeekday;
 import models.AlarmTime;
+import models.InvalidConfigurationException;
 import models.InvalidNumberException;
 import models.MyAlarms;
-import models.Alarm;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class MyAlarmsTest {
 
-	MyAlarms alarms;
-	AlarmByDate alarm;
-	ArrayList<Alarm> expected;
+	MyAlarms myAlarms;
 	
 	@Before
 	public void setUp() throws Exception {
-		alarms = new MyAlarms();
-		AlarmTime time = new AlarmTime(2, 35);
-		AlarmDate date = new AlarmDate(2014, 8, 26);
-		alarm = new AlarmByDate(time, date,1,2,"oi",true,3);
-		expected = new ArrayList<Alarm>();
-		
+		myAlarms = new MyAlarms();
 	}
-
-	
-
 	
 	@Test
-	public void AlarmShouldBeAddedToMyAlarmsList(){
-		try{
-			alarms.newAlarm(alarm);
-			assertTrue(alarms.getMyAlarms().contains(alarm));
-		} catch (Exception e){
-			fail("Shouldn't have thrown exception");
-		}
+	public void shouldBeAbleToAddAlarmToMyAlarmsList(){
 		
+		AlarmByDate alarm1 = new AlarmByDate();
+		AlarmByWeekday alarm2 = new AlarmByWeekday();
+		
+		myAlarms.addAlarm(alarm1);
+		myAlarms.addAlarm(alarm2);
+		
+		assertEquals(2, myAlarms.getAlarms().size());
+		assertNotNull(myAlarms.getAlarmById(1));
+		assertNotNull(myAlarms.getAlarmById(2));
 	}
 	
 	
 	
 	@Test
-	public void alarmShouldBeRemovedFromMyAlarmsList(){
-		try{
-			alarms.newAlarm(alarm);
-			alarms.deleteAlarm(alarm);
-			assertFalse(alarms.getMyAlarms().contains(alarm));
-		} catch (Exception e){
-			fail("Shouldn't have thrown exception");
-		}
+	public void shouldBeAbleToDeleteAlarmFromMyAlarmsList(){
+		AlarmByDate alarm1 = new AlarmByDate();
+		AlarmByWeekday alarm2 = new AlarmByWeekday();
 		
+		myAlarms.addAlarm(alarm1);
+		myAlarms.addAlarm(alarm2);
+		
+		assertEquals(2, myAlarms.getAlarms().size());
+		
+		myAlarms.deleteAlarm(1);
+		
+		assertEquals(1, myAlarms.getAlarms().size());
+		assertNull(myAlarms.getAlarmById(1));
 	}
-
+	
 	@Test
-	public void shouldThrowExceptionSettingDateForTodayIfPastTime() throws Exception{	
+	public void shouldThrowExceptionSettingPastTimeForToday() throws InvalidNumberException {	
+
+		AlarmByDate alarm = new AlarmByDate();
+		myAlarms.addAlarm(alarm);
+		
 		try {
-			alarms.editAlarmHour(alarm,Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE) -1);
+			AlarmTime time = new AlarmTime(Calendar.getInstance().get(Calendar.HOUR) - 1, 0);
+			myAlarms.setAlarmTime(1, time);
 			fail("Should have thrown exception");
-		}catch (Exception i){
-			assertEquals("Past time", i.getMessage());
+		} catch (InvalidConfigurationException e){
+			assertEquals("Invalid time for today.", e.getMessage());
 		}
-	}
-	
-	@Test
-	public void shouldThrowExceptionSettingAlarmIfPastDate(){
-		try{
-			alarms.editAlarmByDate(alarm,Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) -1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-		} catch (Exception e){
-			assertEquals("This date has already passed", e.getMessage());
-		}
-		
 	}
 }
