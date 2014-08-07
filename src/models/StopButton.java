@@ -55,6 +55,16 @@ public class StopButton {
 	public void changeDirection() {
 		direction.changeDirection();
 	}
+	
+	/**
+	 * Change the direction of the button.
+	 * 
+	 * @return The tuple representing the actual direction.
+	 * 
+	 **/
+	public Tuple getDirection() {
+		return direction.getDirection();
+	}
 
 	/**
 	 * Change the position of the button, according to his level speed and
@@ -62,8 +72,31 @@ public class StopButton {
 	 * 
 	 **/
 	public void walk() {
+		
+		if(direction.getX() == 0 && direction.getY() == 0){
+			direction.changeDirection();
+		}
+		
 		position.setX(position.getX() + direction.getX());
 		position.setY(position.getY() + direction.getY());
 	}
+	
+	/**
+	 * Returns the X value of the position.
+	 * 
+	 * @return The X value of the position.
+	 */
+	public int getPositionX(){
+		return position.getX();
+	}	
 
+	/**
+	 * Returns the Y value of the position.
+	 * 
+	 * @return The Y value of the position.
+	 */
+	public int getPositionY(){
+		return position.getY();
+	}
+	
 }
