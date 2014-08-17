@@ -65,7 +65,7 @@ public class MyAlarmsTest {
 		myAlarms.addAlarm(alarm);
 		
 		try {
-			AlarmTime time = new AlarmTime(Calendar.getInstance().get(Calendar.HOUR) - 1, 0);
+			AlarmTime time = new AlarmTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - 1, 0);
 			myAlarms.setAlarmTime(1, time);
 			fail("Should have thrown exception");
 		} catch (InvalidConfigurationException e){
