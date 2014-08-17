@@ -1,8 +1,8 @@
 package tests;
 
-import junit.framework.Assert;
 import models.Direction;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,13 +15,11 @@ public class DirectionTest {
 		dir =  new Direction();
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testBeginWithZero(){
 		Assert.assertTrue(dir.getX() == 0 && dir.getY() == 0);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testFirstChange(){
 		
@@ -30,7 +28,6 @@ public class DirectionTest {
 		Assert.assertFalse(dir.getX() == 0 && dir.getY() == 0);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testCouldntBackToZeroZero(){
 		
