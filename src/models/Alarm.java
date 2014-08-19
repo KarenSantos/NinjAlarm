@@ -1,4 +1,4 @@
-package models;
+package com.ufcg.es.ninjalarm.models;
 
 /**
  * Alarm class
@@ -8,10 +8,11 @@ package models;
  */
 public abstract class Alarm implements Comparable<Alarm> {
 
+	public static final int MAX_VOLUME = 100;
+
 	private final AlarmType DEFAULT_TYPE = AlarmType.MELODY;
 	private final int MIN_VOLUME = 0;
 	private final int DEFAULT_VOLUME = 50;
-	private final int MAX_VOLUME = 100;
 	private final String MELODY_PATH = "/path/";
 	private final String DEFAULT_MELODY = "";
 	private final boolean DEFAULT_SNOOZE = false;
@@ -25,9 +26,11 @@ public abstract class Alarm implements Comparable<Alarm> {
 	private AlarmType type;
 	private int volume;
 	private String melody;
+	private StopButton stopButton;
 	private boolean snooze;
 	private int snoozeInterval;
 	private AlarmTime snoozeTime;
+	private String name;
 	private boolean power;
 
 	/**
@@ -145,6 +148,25 @@ public abstract class Alarm implements Comparable<Alarm> {
 	}
 
 	/**
+	 * Returns the stop button of the alarm.
+	 * 
+	 * @return The stop button of the alarm.
+	 */
+	public StopButton getStopButton() {
+		return this.stopButton;
+	}
+
+	/**
+	 * Sets the stop button of the alarm.
+	 * 
+	 * @param stopButton
+	 *            The new stop button of the alarm.
+	 */
+	public void setStopButton(StopButton stopButton) {
+		this.stopButton = stopButton;
+	}
+
+	/**
 	 * Returns the indication if the snooze is on.
 	 * 
 	 * @return The indication if the snooze is on.
@@ -210,6 +232,25 @@ public abstract class Alarm implements Comparable<Alarm> {
 	}
 
 	/**
+	 * Returns the name of the alarm.
+	 * 
+	 * @return The name of the alarm.
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Sets the name of the alarm.
+	 * 
+	 * @param name
+	 *            The new name of the alarm.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
 	 * Returns if the alarm is on.
 	 * 
 	 * @return True if the alarm is on and False if not.
@@ -221,7 +262,8 @@ public abstract class Alarm implements Comparable<Alarm> {
 	/**
 	 * Sets the alarm power on of off.
 	 * 
-	 * @param power The new alarm power option.
+	 * @param power
+	 *            The new alarm power option.
 	 * 
 	 */
 	public void setPower(boolean power) {
@@ -245,7 +287,7 @@ public abstract class Alarm implements Comparable<Alarm> {
 		this.snoozeInterval = DEFAULT_SNOOZE_INTERVAL;
 		this.power = DEFAULT_POWER;
 	}
-	
+
 	/**
 	 * Returns if the alarm is set for today.
 	 * 
